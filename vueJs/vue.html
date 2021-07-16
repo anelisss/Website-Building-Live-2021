@@ -22,10 +22,20 @@
             <li v-for="list_item in list_orase">{{ list_item }}</li> <!--trb adaugat ca var list_item ca sa ne autocompleteze li cu elem. din list_orase -->
             <!-- v-for adica pentru cati itemi are list_orase, atatea li imi creeaza -->
         </ol>
+
+        <p>
+            {{input_message}}
+        </p>
+        <button v-on:click="reverseString">
+            Reverse String
+        </button>
+
         <button @click="is_something = !is_something">
             Schimba starea
         </button>
         <!-- sterge acel v-if de mai sus -->
+
+        <button @click="appendItem">Append item to list</button>
     </div>
 
     <script>
@@ -37,6 +47,14 @@
                 input_message: '',
                 is_something: true,
                 list_orase: ["Iasi", "Bucuresti", "Brasov"]
+            },
+            methods: {
+                reverseString: function(){
+                    this.input_message = this.input_message.split('').reverse().join('')
+                },
+                appendItem: function(){
+                    this.list_orase.push(this.input_message)
+                }
             }
         })
 
