@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jquery & Ajax & Json</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(
+            function(){
+                updateRate();
+                function updateRate () {
+
+                    //creez un obiect XMLHR de tiprequest
+                    var request = new XMLHttpRequest();
+
+                    //initializez requestul
+                    request.open("GET", "https://api.coindesk.com/v1/bpi/currentprice.json");
+                    
+                    //setez actiunea in urma careia primesc response
+                    request.onreadystatechange = function(){
+
+                        if(this.readyState == 4) {
+                            //parseaza
+                            var rates = JSON.parse(request.response);
+                            //valoarea parsata de care se presupune ca avem nevoie la ceva anume
+                            //in elem cu id rate ii dam valoarea lui html
+                            $("#rate").html(rates.bpi.EUR.rate);
+                        }
+                    }
+                    //trimit request-ul
+                    request.send();
+                }
+            }
+        )
+    </script>
+</head>
+<body>
+    <span id="rate"></span>EUR
+</body>
+</html>
