@@ -22,6 +22,10 @@
             <li v-for="list_item in list_orase">{{ list_item }}</li> <!--trb adaugat ca var list_item ca sa ne autocompleteze li cu elem. din list_orase -->
             <!-- v-for adica pentru cati itemi are list_orase, atatea li imi creeaza -->
         </ol>
+        <button @click="is_something = !is_something">
+            Schimba starea
+        </button>
+        <!-- sterge acel v-if de mai sus -->
     </div>
 
     <script>
