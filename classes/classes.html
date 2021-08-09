@@ -11,7 +11,9 @@
 <body>
     <script>
         class Om {
-
+            constructor (name){
+            this.name = name;
+            }
         }
 
         class Animal {
@@ -51,7 +53,7 @@
 
         //crearea de obiecte
 
-        let proprietar = new Om();
+        let proprietar = new Om("Paul");
 
         let pisicaRino = new RussianBlueCat(2);
         let pisicaTommy = new Cat(2, proprietar);
@@ -68,6 +70,8 @@
 
         let veterinar = new MedicVeterinar();
         veterinar.soundCheck(pisicaRino);
+
+        console.log(pisicaTommy.owner.name);
 
         //apelez o functie din clasa respectiva
         pisicaRino.cry();
