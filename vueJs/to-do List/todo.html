@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <link rel="stylesheet" href="todo.css">
 </head>
+
 <body>
 
     <div id="app">
@@ -15,11 +17,19 @@
             <h1>To Do: </h1>
             <p> {{ "Total: " + todos.length }}</p>
             <ul>
-                <li v-for="item in todos"> {{ item.name }} </li>
+                <li v-for="{todo, index} in todos" v-bind:class="{ done: todo.isDone }" class="task">
+                    <div class="title">{{ todo.name }}</div>
+                </li>
             </ul>
+
+            <div class="controls">
+                <div class="check" @click="checkTodo(index)">&#x2713;</div>
+                <div class="delete" @click="deleteTodo(index)">&#x2715;</div>
+            </div>
+
             <div class="new_task">
                 <label for="new_task">Task:</label>
-                <input type="text" name="new_task" id="" v-model="new_task_entry">
+                <input type="text" name="new_task" id="" v-model="new_task_entry" placeholder="Add new item...">
                 <button class="save_task" v-on:click="saveNewTodoItem">Add Item</button>
             </div>
         </div>
@@ -36,21 +46,31 @@
             el: "#app",
             data: {
                 new_task_entry: '',
-            todos: [
-                new Todo("Wake up"),
-                new Todo("Eat breakfast"),
-                new Todo("Go to work")]
+                todos: [
+                    new Todo("Wake up"),
+                    new Todo("Eat breakfast"),
+                    new Todo("Go to work")
+                ],
+                showDone: true
+
             },
             methods: {
                 saveNewTodoItem() {
-
+                    //adaug val. noua in lista
                     this.todos.push(new Todo(this.new_task_entry));
+                    //reset la task
                     this.new_task_entry = '';
-
+                },
+                checkTodo(index) {
+                    this.todos[index].switchDone();
+                },
+                deleteTodo(index) {
+                    this.todos.splice(index, 1);
                 }
             }
         })
     </script>
 
 </body>
+
 </html>
