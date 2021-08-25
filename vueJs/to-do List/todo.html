@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="todo.css">
 </head>
 
@@ -15,37 +15,63 @@
     <div id="app">
         <div class="todo-list">
             <h1>To Do: </h1>
-            <p> {{ "Total: " + todos.length }}</p>
+
+            <div class="filters">
+                <label>{{"Total: " + todos.length}}</label>
+            </div>
             <ul>
-                <li v-for="{todo, index} in todos" v-bind:class="{ done: todo.isDone }" class="task">
-                    <div class="title">{{ todo.name }}</div>
-                </li>
+                <!-- <li v-for="{todo, index} in todos" v-bind:class="{ done: todo.isDone }" class="task">
+                    <div class="title">{{ todo.title }}</div>
+
+                    <div class="controls">
+                        <div class="check" @click="checkTodo(index)">&#x2713;</div>
+                        <div class="delete" @click="deleteTodo(index)">&#x2715;</div>
+                    </div>
+                </li> -->
+
+                <task v-for="(todo, index) in todos" 
+                    :task_title="task_title"
+                    v-bind="task_isDone"
+                    @click="checkTodo(index)" 
+                    @click="deleteTodo(index)">
+                    
+
+                </task>
+
             </ul>
 
-            <div class="controls">
-                <div class="check" @click="checkTodo(index)">&#x2713;</div>
-                <div class="delete" @click="deleteTodo(index)">&#x2715;</div>
-            </div>
-
             <div class="new_task">
-                <label for="new_task">Task:</label>
-                <input type="text" name="new_task" id="" v-model="new_task_entry" placeholder="Add new item...">
-                <button class="save_task" v-on:click="saveNewTodoItem">Add Item</button>
+                Task:
+                <input type="text" v-model="task" @keyup.enter="saveTodo" placeholder="Add new item...">
+                <div class="save_task"><button v-on:click="saveNewTodo">Add Item</button></div>
             </div>
         </div>
     </div>
 
     <script>
+        Vue.component("task", {
+            template: `<li v-for="{todo, index} in todos" v-bind:class="{ done: todo.isDone }" class="task">
+                    <div class="title">{{ todo.title }}</div>
+
+                    <div class="controls">
+                        <div class="check" @click="checkTodo('checked')" > &#x2713; </div>
+                        <div class="delete" @click="deleteTodo('deleted')" > &#x2715; </div>
+                    </div>
+                </li>`,
+            props: [task_title, task_isDone]
+        }
+        )
+
         class Todo {
             constructor(name) {
                 this.name = name;
                 this.isDone = false;
             }
         }
-        var todo = new Vue({
+        var app = new Vue({
             el: "#app",
             data: {
-                new_task_entry: '',
+                task: '',
                 todos: [
                     new Todo("Wake up"),
                     new Todo("Eat breakfast"),
@@ -55,11 +81,11 @@
 
             },
             methods: {
-                saveNewTodoItem() {
+                saveNewTodo() {
                     //adaug val. noua in lista
-                    this.todos.push(new Todo(this.new_task_entry));
+                    this.todos.push(new Todo(this.task));
                     //reset la task
-                    this.new_task_entry = '';
+                    this.task = '';
                 },
                 checkTodo(index) {
                     this.todos[index].switchDone();
