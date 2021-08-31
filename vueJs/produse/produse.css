@@ -1,0 +1,12 @@
+
+body{
+    width: 100vw;
+    padding-left: 5%;
+}
+#price {
+    width: 60%;
+    margin: auto;
+}
+#price {
+    right: 1em;
+}
